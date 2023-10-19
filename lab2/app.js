@@ -16,7 +16,7 @@ console.log("mean = " + max);
 
 // Zad 3
 console.log("Zad 3");
-function weighted_average(user) {
+function weightedAverage(user) {
     let gradesWeightedSum = 0;
     let weightsSum = 0;
     for(const elem of user.allGrades) {
@@ -51,4 +51,13 @@ const user = {
     ]
 }
 
-weighted_average(user);
+weightedAverage(user);
+
+// Zad 4
+console.log("Zad 4")
+function findSubjectWithWeight(user, weight) {
+    let subject = _.find(user.allGrades, (o) => {return o.weight === weight});
+    console.log(subject.subjectName);
+}
+
+findSubjectWithWeight(user, 1);
