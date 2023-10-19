@@ -61,3 +61,29 @@ function findSubjectWithWeight(user, weight) {
 }
 
 findSubjectWithWeight(user, 1);
+
+// Zad 5
+console.log("Zad 5");
+
+function getMails(items) {
+    let strings = _.filter(items, (o) => {return typeof(o) === typeof("text")});
+    const mailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+    const mails = _.filter(strings, rx => mailRegex.test(rx));
+    console.log(mails);
+}
+
+const collections = [
+    {},
+    15,
+    "hello@test.pl",
+    null,
+    ['aaa', 'bbb', '5'],
+    'admin@gmail.com',
+    undefined,
+    'a34@yahoo.com',
+    '231@1',
+    '321.pl'
+];
+
+getMails(collections);
