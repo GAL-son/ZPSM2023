@@ -34,12 +34,8 @@ function App(): JSX.Element {
   const [isResult, setIsResult] = useState(false);
 
   const type = (snum : string) => {
-    if (textContent === "" && (snum in ['0', '.'])) {
-      
-    } else {
       setText(textContent + snum)
       setIsResult(false);
-    }
   }
 
   const clear = () => {
@@ -56,7 +52,7 @@ function App(): JSX.Element {
     setIsResult(true);
     try {
       const result = eval(textContent);
-      setText(result);
+      setText(result.toString());
     } catch(e) {
       setText('ERROR');
     }
