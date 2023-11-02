@@ -14,11 +14,19 @@ type myViewParams = {
     styleBasic: any;
     styleOrientation: any;    
     buttons: string[];
+    colorArray: number[];
 }
 
 const CalcView = (params: myViewParams) => {
     const [textContent, setText] = useState(" ");
     const [isResult, setIsResult] = useState(false);
+
+    const colorArray = [
+        params.styleBasic.color0,
+        params.styleBasic.color1,
+        params.styleBasic.color2,
+        params.styleBasic.color3,
+    ]
 
     const type = (snum: string) => {
         // setText(textContent + snum)
@@ -50,7 +58,7 @@ const CalcView = (params: myViewParams) => {
     const generateButtons = () => {
         // Generate 
         return (
-            <View style={styles.buttonContainer}>
+            <View style={[params.styleBasic.buttonContainer]}>
                 {params.buttons.map((button, index) => {
                     const isNumber = !isNaN(parseInt(button)) || button === '.';
                     return (
@@ -58,10 +66,14 @@ const CalcView = (params: myViewParams) => {
                             key={index}
                             value={button}
                             styleButton={[
+                                params.styleBasic.button,   
                                 params.styleOrientation.button,
-                                isNumber ? params.styleBasic.buttonNormal : params.styleBasic.buttonSpecial
+                                colorArray[params.colorArray[index]]
                             ]}
-                            styleText={params.styleOrientation.buttonText}
+                            styleText={[
+                                params.styleOrientation.buttonText,
+                                (params.colorArray[index] == 0) ? params.styleBasic.textLight : params.styleBasic.textDefault
+                            ]}
                             onPress={() => {
                                 if (button === '=') {
                                     calculate();
@@ -81,7 +93,7 @@ const CalcView = (params: myViewParams) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={params.styleBasic.container}>
             <View style={styles.inputContainer}>
                 <Text style={[styles.input, (isResult ? params.styleBasic.inputResult : params.styleBasic.inputNormal)]}>{textContent}</Text>
             </View>

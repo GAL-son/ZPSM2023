@@ -1,13 +1,25 @@
-import {evaluate} from "mathjs";
+import {evaluate, randomInt} from "mathjs";
 
 const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 const basicOperations = ['+', '-', '*', '/'];
 const functions = [
     'sin', 'cos', 'tan',
     'sinh', 'cosh', 'tanh',
-    'ln', 'log10',
+    'ln', 'log10', 
+    '√(2)', '√(3)', '√(x)',
 ];
+
+const symbols = ['e', 'pi'];
 const parentecies = ['(', ')'];
+
+const parsed = [
+    ['x^2', "^2"], ['x^3', "^3"], ['x^y', "^"],
+    ["x!", "!"], ['EE', '*10^'],
+]
+
+const roots = [
+    ['√(2)', 'sqrt'], ['√(3)', 'qbrt'], ['√', 'nthRoot']
+]
 
 const operations = [
     '(', ')', 'mc', 'm+', 'm-', 'mr', 'AC', '+/-', '%', '<==',
@@ -17,18 +29,100 @@ const operations = [
     'Rad', 'sinh', 'cosh', 'tanh', 'pi', 'Rand', '0', '.', '=', '+',
 ];
 
+
+
 class Calculator {
     text: string = "";
     equation: string = "";
     items: string[] = [];
 
     isError: boolean = false;
+    wasNegated = false;
 
     input(item: string) {
         this.clearError();
         // Add new item to queue
         let last = this.items.at(this.items.length - 1);
         // TODO: Create operations logic
+
+        if(item == '+/-') { 
+            console.log(this.wasNegated);
+            if(this.wasNegated) {
+                console.log(this.items);
+                for(let i = this.items.length - 1; i > 0; i--) {
+                    if(this.items.at(i) == "-" && this.items.at(i-1) == "(") {
+                        console.log(i)
+                        this.items.splice(i-1, 2);
+                        return;
+                    }
+                }
+                // for(let i = this.text.length-1; i > 0 ; i--) {
+                //     //console.log(this.text.substring(i-1, i+1))
+                //     if(this.text.substring(i-1, i+1) == "(-") {
+                //         this.items.splice(i-3, 2);
+                //         this.wasNegated = false;
+                //         return;
+                //     }
+                // }
+                
+            }    
+            this.wasNegated = true;        
+            
+            let depth = this.items.length - 1;
+            while(depth >= 0) {
+                let current = this.items.at(depth);
+                if(basicOperations.includes(current)) {
+                    this.items.splice(depth+1, 0, '(', '-');
+                    return;
+                }
+                if(parentecies.includes(current)) {
+                    if(numbers.includes(this.items.at(depth+1))) {
+                        this.items.splice(depth+1, 0, '(', '-');
+                        return;
+                    }
+                    if(functions.includes(this.items.at(depth-1))) {
+                        console.log("fun")
+                        this.items.splice(depth-1, 0, '(', '-');                        
+                    } else {
+                        this.items.splice(depth, 0, '(', '-');                        
+                    }
+                    return;
+                }
+                depth--;
+            }
+            this.items.splice(depth+1, 0, '(', '-');            
+            this.wasNegated = true;
+        } else {
+            this.wasNegated = false
+        }
+        
+
+        if(item == "e^x") {
+            this.items = ["e","^","("].concat(this.items);
+            return
+        }
+
+        if(item == "1/x") {
+            this.items = ["1","/","("].concat(this.items);
+            return;
+        }
+
+        if(item == "Rand") {
+            this.items.push(randomInt(0,9).toString());
+            return;
+        }
+        
+        if(item == '√(x)') {
+            this.items = ["√","("].concat(this.items).concat(',');
+            return;
+        }
+
+
+
+        // if(item == "x!") {
+        //     this.items = ["!","("].concat(this.items);
+        //     return;
+        // }
 
         // Handle numbers logic
         if (numbers.includes(item)) {
@@ -38,6 +132,10 @@ class Calculator {
                 this.items.push(item);
                 this.items.push(".");
                 return;
+            }
+
+            if(symbols.includes(last)) {
+                this.items.push("*");
             }
 
             // Handle period
@@ -74,6 +172,15 @@ class Calculator {
             return; // TO DELETE
         }
 
+        // Handle symbols
+        if(symbols.includes(item)) {
+            if(numbers.includes(last)) {
+                this.items.push('*');
+            }
+            this.items.push(item);
+            return;
+        }
+
         // Handle basic operations
         if(basicOperations.includes(item)) {
             if(last == '.' || basicOperations.includes(last)) {
@@ -101,6 +208,16 @@ class Calculator {
             this.items.push(item);
             this.items.push('(');
             
+            return;
+        }
+
+        // Handle parsing from buttons
+        let parsePair = parsed.find(e => e[0] === item);
+        if(parsePair != undefined) {            
+            if(item[0] == 'x' && (!(numbers.includes(last)) && !(parentecies.includes(last)))) {
+                this.items.push("0")
+            }
+            this.items.push(parsePair[1]);
             return;
         }
         
@@ -133,7 +250,7 @@ class Calculator {
         }
         this.itemsToText();
         this.itemsToEquation();
-        console.log(this.text);
+        console.log(this.equation);
         //if(!numbers.includes)
         try {
             const result = evaluate(this.equation).toPrecision(8);
@@ -162,7 +279,12 @@ class Calculator {
 
     itemsToEquation() : void {
         this.equation = "";
-        this.items.forEach(element => {
+        this.items.forEach(element => { 
+            let parsePair = roots.find(e => e[0] === element);   
+            if(parsePair != undefined) {            
+                this.equation += parsePair[1];
+                return;
+            }      
             this.equation += element;
         });
     }

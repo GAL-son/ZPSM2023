@@ -46,16 +46,30 @@ function App(): JSX.Element {
     'Rad',  'sinh', 'cosh', 'tanh', 'pi',   'Rand', '0',    '.',    '=',    '+',
   ];
 
+  const buttonColorMaskLandscape = [
+    0,0,0,0,0,0,0,0,0,0,
+    1,1,1,1,1,1,2,2,2,3,
+    1,1,1,1,1,1,2,2,2,3,
+    1,1,1,1,1,1,2,2,2,3,
+    1,1,1,1,1,1,2,2,3,3
+  ];
+
+  const buttonColorMaskPortrait = [
+    0,0,0,0,
+    2,2,2,3,
+    2,2,2,3,
+    2,2,2,3,
+    2,2,3,3
+  ];
+
   return(
     <CalcView 
       calculator={calc} 
       styleBasic={styles} 
       styleOrientation={(orientation === 'portrait') ? stylesPortrait : stylesLandscape}
       buttons={(orientation === 'portrait') ? buttonsPortrait : buttonsLandscape}
+      colorArray={(orientation === 'portrait') ? buttonColorMaskPortrait : buttonColorMaskLandscape}
     />
-    // <>
-    //   {(orientation==='portrait') ? <VericalView calculator = {calc}/> : <HorizontalView/>}
-    // </>
   )
 }
 
@@ -63,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
       flex: 1,
       justifyContent: 'flex-end',
-      backgroundColor: "#dfe0e2",
+      backgroundColor: "#bcffdb",
   },
 
   inputContainer: {
@@ -73,16 +87,17 @@ const styles = StyleSheet.create({
   },
 
   inputNormal: {
-      color: '#607285'
+      color: '#2f2f2f'
   },
 
   inputResult: {
-      color: '#3b28cc'
+      color: '#4f9d69'
   },
 
   buttonContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
+      justifyContent: "space-evenly"
   },
 
   button: {
@@ -90,12 +105,28 @@ const styles = StyleSheet.create({
       alignItems: 'center',
   },
 
-  buttonNormal: {
-      backgroundColor: '#75abbc'
+  color0: {
+      backgroundColor: '#2f2f2f'
   },
 
-  buttonSpecial: {
-      backgroundColor: '#3b28cc'
+  color1: {
+      backgroundColor: '#68d89b'
+  },
+
+  color2: {
+    backgroundColor: '#8dffcd'
+  },
+
+  color3: {
+      backgroundColor: '#4f9d69'
+  },
+  
+  textDefault: {
+    color: '#2f2f2f'
+  },
+
+  textLight: {
+    color: '#bcffdb'
   },
 
   fieldHeight: {
@@ -109,7 +140,7 @@ const styles = StyleSheet.create({
   textField: {
       display: 'flex',
       width: '100%',
-      backgroundColor: '#555555',
+      backgroundColor: '#bcffdb',
   },
 
   text: {
