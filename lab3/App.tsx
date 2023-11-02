@@ -27,6 +27,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { TouchableOpacity } from 'react-native';
+import MyButton from './components/MyButton';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -73,26 +74,47 @@ function App(): JSX.Element {
         {buttons.map((button, index) => {
               const isNumber = !isNaN(parseInt(button)) || button === '.';
               return (
-<TouchableOpacity
-                      key={index}
-                      style={[
-                        styles.button,
-                        isNumber ? styles.buttonNormal : styles.buttonSpecial
-                      ]}
-                      onPress={() => {
-                        if (button === '=') {
-                          calculate();
-                        } else if (button === 'AC') {
-                          clear();
-                        } else if (button === '<==') {
-                          deleteInput();
-                        } else {
-                          type(button);
-                        }
-                      }}
-                  >
-                    <Text style={styles.buttonText}>{button}</Text>
-                  </TouchableOpacity>
+                <MyButton 
+                  key={index}
+                  value={button} 
+                  styleButton={[
+                    styles.button,
+                    isNumber ? styles.buttonNormal : styles.buttonSpecial
+                  ]}
+                  styleText={styles.buttonText}
+                  onPress={() => {
+                    if (button === '=') {
+                      calculate();
+                    } else if (button === 'AC') {
+                      clear();
+                    } else if (button === '<==') {
+                      deleteInput();
+                    } else {
+                      type(button);
+                    }
+                  }}
+                />
+
+              // <TouchableOpacity
+              //         key={index}
+              //         style={[
+              //           styles.button,
+              //           isNumber ? styles.buttonNormal : styles.buttonSpecial
+              //         ]}
+                      // onPress={() => {
+                      //   if (button === '=') {
+                      //     calculate();
+                      //   } else if (button === 'AC') {
+                      //     clear();
+                      //   } else if (button === '<==') {
+                      //     deleteInput();
+                      //   } else {
+                      //     type(button);
+                      //   }
+                      // }}
+              //     >
+              //       <Text style={styles.buttonText}>{button}</Text>
+              //     </TouchableOpacity>
               );
             })}
       </View>
