@@ -3,7 +3,6 @@ import { Text, View } from "react-native";
 import React, { useState } from 'react';
 
 type MyButtonProps = {
-    key: any;
     value: string;
     styleButton: any;
     styleText: any;
