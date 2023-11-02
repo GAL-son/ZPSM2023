@@ -223,7 +223,7 @@ class Calculator {
         
         // Handle Advanced Operation
 
-        this.items.push(item);
+
     }
 
     delete() {
