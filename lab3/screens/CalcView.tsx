@@ -44,13 +44,7 @@ const CalcView = (params: myViewParams) => {
     const calculate = () => {
         setIsResult(true);
         params.calculator.calculate();
-        setText(params.calculator.getText())
-        // try {
-        //     const result = eval(textContent);
-        //     setText(result.toString());
-        // } catch (e) {
-        //     setText('ERROR');
-        // }
+        setText(params.calculator.getText());
     }
 
     const generateButtons = () => {
