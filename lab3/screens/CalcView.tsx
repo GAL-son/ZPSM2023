@@ -11,9 +11,12 @@ import Calculator from '../logic/calculations';
 
 type myViewParams = {
     calculator: Calculator;
+    styleBasic: any;
+    styleOrientation: any;    
+    buttons: string[];
 }
 
-const VericalView = (params: myViewParams) => {
+const CalcView = (params: myViewParams) => {
     const [textContent, setText] = useState(" ");
     const [isResult, setIsResult] = useState(false);
 
@@ -50,29 +53,21 @@ const VericalView = (params: myViewParams) => {
         // }
     }
 
-    const buttons = [
-        'AC', '', '', '<==',
-        '7', '8', '9', '/',
-        '4', '5', '6', '*',
-        '1', '2', '3', '-',
-        '0', '.', '=', '+',
-    ];
-
     const generateButtons = () => {
         // Generate 
         return (
             <View style={styles.buttonContainer}>
-                {buttons.map((button, index) => {
+                {params.buttons.map((button, index) => {
                     const isNumber = !isNaN(parseInt(button)) || button === '.';
                     return (
                         <MyButton
                             key={index}
                             value={button}
                             styleButton={[
-                                styles.button,
-                                isNumber ? styles.buttonNormal : styles.buttonSpecial
+                                params.styleOrientation.button,
+                                isNumber ? params.styleBasic.buttonNormal : params.styleBasic.buttonSpecial
                             ]}
-                            styleText={styles.buttonText}
+                            styleText={params.styleOrientation.buttonText}
                             onPress={() => {
                                 if (button === '=') {
                                     calculate();
@@ -94,7 +89,7 @@ const VericalView = (params: myViewParams) => {
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
-                <Text style={[styles.input, (isResult ? styles.inputResult : styles.inputNormal)]}>{textContent}</Text>
+                <Text style={[styles.input, (isResult ? params.styleBasic.inputResult : params.styleBasic.inputNormal)]}>{textContent}</Text>
             </View>
             {generateButtons()}
         </View>
@@ -175,4 +170,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default VericalView;
+export default CalcView;

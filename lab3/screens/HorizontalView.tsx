@@ -7,14 +7,21 @@ import {
 } from 'react-native';
 
 import MyButton from '../components/MyButton';
+import Calculator from '../logic/calculations';
+
+type myViewParams = {
+    calculator: Calculator;
+}
 
 const HorizontalView = () => {
     const [textContent, setText] = useState(" ");
   const [isResult, setIsResult] = useState(false);
 
   const type = (snum : string) => {
-      setText(textContent + snum)
-      setIsResult(false);
+    
+
+    //   setText(textContent + snum)
+    //   setIsResult(false);
   }
 
   const clear = () => {
