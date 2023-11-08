@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { Dimensions, StyleSheet, } from 'react-native';
 import { useState } from "react";
@@ -15,6 +15,7 @@ import HorizontalView from './screens/HorizontalView';
 
 import Calculator from './logic/calculations';
 import CalcView from './screens/CalcView';
+import SplashScreen from 'react-native-splash-screen';
 
 function App(): JSX.Element {
   const calc = new Calculator();
@@ -61,6 +62,10 @@ function App(): JSX.Element {
     2,2,2,3,
     2,2,3,3
   ];
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return(
     <CalcView 
