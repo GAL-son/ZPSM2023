@@ -5,20 +5,27 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Dimensions, StyleSheet, } from 'react-native';
-import { useState } from "react";
+import { Dimensions, StyleSheet, useColorScheme, StatusBar, SafeAreaView,} from 'react-native';
+
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import VericalView from './screens/VerticalView';
 import HorizontalView from './screens/HorizontalView';
 
 import Calculator from './logic/calculations';
 import CalcView from './screens/CalcView';
+import SplashScreen from 'react-native-splash-screen';
 
 function App(): JSX.Element {
   const calc = new Calculator();
-  
+
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
   const isPortrait = () => {
     const dim = Dimensions.get('screen');
     return dim.height >= dim.width;
@@ -39,78 +46,89 @@ function App(): JSX.Element {
   ];
 
   const buttonsLandscape = [
-    '(',    ')',    'mc',   'm+',   'm-',   'mr',   'AC',   '+/-',  '%',    '<==',
-    '2nd',  'x^2',  'x^3',  'x^y',  'e^x',  '10^x', '7',    '8',    '9',    '/',
-    '1/x',  '√(2)', '√(3)', '√(x)', 'ln',   'log10','4',    '5',    '6',    '*',
-    'x!',   'sin',  'cos',  'tan',  'e',    'EE',   '1',    '2',    '3',    '-',
-    'Rad',  'sinh', 'cosh', 'tanh', 'pi',   'Rand', '0',    '.',    '=',    '+',
+    '(', ')', 'mc', 'm+', 'm-', 'mr', 'AC', '+/-', '%', '<==',
+    '2nd', 'x^2', 'x^3', 'x^y', 'e^x', '10^x', '7', '8', '9', '/',
+    '1/x', '√(2)', '√(3)', '√(x)', 'ln', 'log10', '4', '5', '6', '*',
+    'x!', 'sin', 'cos', 'tan', 'e', 'EE', '1', '2', '3', '-',
+    'Rad', 'sinh', 'cosh', 'tanh', 'pi', 'Rand', '0', '.', '=', '+',
   ];
 
   const buttonColorMaskLandscape = [
-    0,0,0,0,0,0,0,0,0,0,
-    1,1,1,1,1,1,2,2,2,3,
-    1,1,1,1,1,1,2,2,2,3,
-    1,1,1,1,1,1,2,2,2,3,
-    1,1,1,1,1,1,2,2,3,3
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 2, 2, 2, 3,
+    1, 1, 1, 1, 1, 1, 2, 2, 2, 3,
+    1, 1, 1, 1, 1, 1, 2, 2, 2, 3,
+    1, 1, 1, 1, 1, 1, 2, 2, 3, 3
   ];
 
   const buttonColorMaskPortrait = [
-    0,0,0,0,
-    2,2,2,3,
-    2,2,2,3,
-    2,2,2,3,
-    2,2,3,3
+    0, 0, 0, 0,
+    2, 2, 2, 3,
+    2, 2, 2, 3,
+    2, 2, 2, 3,
+    2, 2, 3, 3
   ];
 
-  return(
-    <CalcView 
-      calculator={calc} 
-      styleBasic={styles} 
-      styleOrientation={(orientation === 'portrait') ? stylesPortrait : stylesLandscape}
-      buttons={(orientation === 'portrait') ? buttonsPortrait : buttonsLandscape}
-      colorArray={(orientation === 'portrait') ? buttonColorMaskPortrait : buttonColorMaskLandscape}
-    />
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
+  return (
+    <SafeAreaView style={[styles.container, backgroundStyle]}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
+      <CalcView
+        calculator={calc}
+        styleBasic={styles}
+        styleOrientation={(orientation === 'portrait') ? stylesPortrait : stylesLandscape}
+        buttons={(orientation === 'portrait') ? buttonsPortrait : buttonsLandscape}
+        colorArray={(orientation === 'portrait') ? buttonColorMaskPortrait : buttonColorMaskLandscape}
+      />
+    </SafeAreaView>
+
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      backgroundColor: "#bcffdb",
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: "#bcffdb",
   },
 
   inputContainer: {
-      padding: 15,
-      height: 'auto',
-      alignItems: 'flex-end',
+    padding: 15,
+    height: 'auto',
+    alignItems: 'flex-end',
   },
 
   inputNormal: {
-      color: '#2f2f2f'
+    color: '#2f2f2f'
   },
 
   inputResult: {
-      color: '#4f9d69'
+    color: '#4f9d69'
   },
 
   buttonContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: "space-evenly"
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: "space-evenly"
   },
 
   button: {
-      justifyContent: 'center',
-      alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   color0: {
-      backgroundColor: '#2f2f2f'
+    backgroundColor: '#2f2f2f'
   },
 
   color1: {
-      backgroundColor: '#68d89b'
+    backgroundColor: '#68d89b'
   },
 
   color2: {
@@ -118,9 +136,9 @@ const styles = StyleSheet.create({
   },
 
   color3: {
-      backgroundColor: '#4f9d69'
+    backgroundColor: '#4f9d69'
   },
-  
+
   textDefault: {
     color: '#2f2f2f'
   },
@@ -130,24 +148,24 @@ const styles = StyleSheet.create({
   },
 
   fieldHeight: {
-      height: 100,
+    height: 100,
   },
 
   buttonClear: {
-      backgroundColor: '#F35555'
+    backgroundColor: '#F35555'
   },
 
   textField: {
-      display: 'flex',
-      width: '100%',
-      backgroundColor: '#bcffdb',
+    display: 'flex',
+    width: '100%',
+    backgroundColor: '#bcffdb',
   },
 
   text: {
-      color: '#dddddd',
-      alignSelf: 'flex-end',
-      margin: 1,
-      fontSize: 65,
+    color: '#dddddd',
+    alignSelf: 'flex-end',
+    margin: 1,
+    fontSize: 65,
   },
 });
 
@@ -174,7 +192,7 @@ const stylesLandscape = StyleSheet.create({
 
   button: {
     height: 45,
-     width: '9.999%',
+    width: '9.999%',
     padding: 10,
   },
 
