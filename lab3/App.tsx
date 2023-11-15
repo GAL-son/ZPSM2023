@@ -191,7 +191,7 @@ const stylesLandscape = StyleSheet.create({
   },
 
   button: {
-    height: 45,
+    height: 48,
     width: '9.999%',
     padding: 10,
   },

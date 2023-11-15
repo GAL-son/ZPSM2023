@@ -160,12 +160,6 @@ const CalcView = (params: myViewParams) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        backgroundColor: "#dfe0e2",
-    },
-
     inputContainer: {
         padding: 15,
         height: 'auto',
@@ -182,54 +176,6 @@ const styles = StyleSheet.create({
 
     inputResult: {
         color: '#3b28cc'
-    },
-
-    buttonContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-
-    button: {
-        height: 100,
-        width: '25%',
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    buttonText: {
-        fontSize: 25,
-    },
-
-    buttonNormal: {
-        backgroundColor: '#75abbc'
-    },
-
-    buttonSpecial: {
-        backgroundColor: '#3b28cc'
-    },
-
-    fieldHeight: {
-        height: 100,
-    },
-
-    buttonClear: {
-        backgroundColor: '#F35555'
-    },
-
-    buttonDoubleWidth: {
-        width: '50%',
-    },
-    textField: {
-        display: 'flex',
-        width: '100%',
-        backgroundColor: '#555555',
-    },
-    text: {
-        color: '#dddddd',
-        alignSelf: 'flex-end',
-        margin: 1,
-        fontSize: 65,
     },
 });
 
