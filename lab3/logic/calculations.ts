@@ -125,10 +125,15 @@ class Calculator {
             return;
         }
 
-        // if(item == "x!") {
-        //     this.items = ["!","("].concat(this.items);
-        //     return;
-        // }
+        if(item == "Rad") {
+            this.items = ["("].concat(this.items).concat(")*(pi/180)".split(""));
+            return;
+        }
+
+        if(item == "10^x") {
+            this.items.push("10^");
+            return;
+        }
 
         // Handle numbers logic
         if (numbers.includes(item)) {
