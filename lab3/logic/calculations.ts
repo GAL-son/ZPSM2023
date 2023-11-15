@@ -1,5 +1,6 @@
 import {evaluate, randomInt} from "mathjs";
 
+
 const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 const basicOperations = ['+', '-', '*', '/'];
 const functions = [
@@ -21,15 +22,14 @@ const roots = [
     ['√(2)', 'sqrt'], ['√(3)', 'qbrt'], ['√', 'nthRoot']
 ]
 
-const operations = [
-    '(', ')', 'mc', 'm+', 'm-', 'mr', 'AC', '+/-', '%', '<==',
-    '2nd', 'x^2', 'x^3', 'x^y', 'e^x', '10^x', '7', '8', '9', '/',
-    '1/x', '√(2)', '√(3)', '√(x)', 'ln', 'log10', '4', '5', '6', '*',
-    'x!', 'sin', 'cos', 'tan', 'e', 'EE', '1', '2', '3', '-',
-    'Rad', 'sinh', 'cosh', 'tanh', 'pi', 'Rand', '0', '.', '=', '+',
-];
-
-
+// Reference function list
+// const operations = [
+//     '(', ')', 'mc', 'm+', 'm-', 'mr', 'AC', '+/-', '%', '<==',
+//     '2nd', 'x^2', 'x^3', 'x^y', 'e^x', '10^x', '7', '8', '9', '/',
+//     '1/x', '√(2)', '√(3)', '√(x)', 'ln', 'log10', '4', '5', '6', '*',
+//     'x!', 'sin', 'cos', 'tan', 'e', 'EE', '1', '2', '3', '-',
+//     'Rad', 'sinh', 'cosh', 'tanh', 'pi', 'Rand', '0', '.', '=', '+',
+// ];
 
 class Calculator {
     text: string = "";
@@ -38,6 +38,9 @@ class Calculator {
 
     isError: boolean = false;
     wasNegated = false;
+
+    memory: number = 0;
+    isMemorySet: boolean = false;
 
     input(item: string) {
         this.clearError();
@@ -116,8 +119,6 @@ class Calculator {
             this.items = ["√","("].concat(this.items).concat(',');
             return;
         }
-
-
 
         // if(item == "x!") {
         //     this.items = ["!","("].concat(this.items);
@@ -254,7 +255,7 @@ class Calculator {
         //if(!numbers.includes)
         try {
             const result = evaluate(this.equation).toPrecision(8);
-            console.log(result);
+            //console.log(result);
             const resultItems = String(result).split("");
             this.items = resultItems;
         } catch (e) {
@@ -299,6 +300,32 @@ class Calculator {
     makeError( ) {
         this.isError = true;
     }
+
+    memoryAdd() {
+        if(!this.isError) {
+            this.memory += parseFloat(this.text);
+            this.isMemorySet = true;
+        }        
+    }
+
+    memorySubtract() {
+        if(!this.isError) {
+            this.memory -= parseFloat(this.text);
+            this.isMemorySet = true;
+        }   
+    }
+
+    memoryRecall() {
+        if(!this.isMemorySet) return;
+        this.items.push(this.memory.toString());
+    }
+
+    memoryClear() {
+        this.isMemorySet = false;
+        this.memory = 0;
+    }
+
+
 }
 
 export default Calculator;

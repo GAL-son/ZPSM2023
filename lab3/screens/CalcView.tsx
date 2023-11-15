@@ -4,10 +4,12 @@ import {
     StyleSheet,
     Text,
     View,
+    ToastAndroid,
 } from 'react-native';
 
 import MyButton from '../components/MyButton';
 import Calculator from '../logic/calculations';
+import { string } from 'mathjs';
 
 type myViewParams = {
     calculator: Calculator;
@@ -43,7 +45,6 @@ const CalcView = (params: myViewParams) => {
     }
 
     const deleteInput = () => {
-        //setText(textContent.substring(0, textContent.length - 1));
         params.calculator.delete();
         setText(params.calculator.getText());
         setIsResult(false);
@@ -54,6 +55,43 @@ const CalcView = (params: myViewParams) => {
         params.calculator.calculate();
         setText(params.calculator.getText());
     }
+
+    const handleMemory = (button: string) => {
+        let toastText: string = "";
+        switch (button) {
+            case "mc":
+                params.calculator.memoryClear();
+                toastText = "Memory has been cleared!";
+                break;
+            case "mr":
+                params.calculator.memoryRecall();
+                break;
+            case "m+":
+                calculate();                
+                if(params.calculator.isError) {
+                    toastText = "ERROR occured"
+                } else {
+                    params.calculator.memoryAdd();
+                    toastText = "Added to memory"
+                }
+                break;
+            case "m-":
+                calculate();                
+                if(params.calculator.isError) {
+                    toastText = "ERROR occured"
+                } else {
+                    params.calculator.memorySubtract();
+                    toastText = "Subtracted from memory"
+                }
+                break;
+            default:
+                break;
+        }
+
+        ToastAndroid.show(toastText, ToastAndroid.SHORT);
+    }
+
+
 
     const generateButtons = () => {
         // Generate 
@@ -75,6 +113,25 @@ const CalcView = (params: myViewParams) => {
                                 (params.colorArray[index] == 0) ? params.styleBasic.textLight : params.styleBasic.textDefault
                             ]}
                             onPress={() => {
+                                switch (button) {
+                                    case "=":
+                                        calculate();
+                                        break;
+                                    case "AC":
+                                        clear();
+                                        break;
+                                    case "<==":
+                                        deleteInput();
+                                        break;
+                                    case "mc":
+                                    case "m+":
+                                    case "m-":
+                                    case "mr":
+                                        handleMemory(button);
+                                        break;
+                                    default:
+                                        
+                                }
                                 if (button === '=') {
                                     calculate();
                                 } else if (button === 'AC') {
