@@ -130,16 +130,7 @@ const CalcView = (params: myViewParams) => {
                                         handleMemory(button);
                                         break;
                                     default:
-                                        
-                                }
-                                if (button === '=') {
-                                    calculate();
-                                } else if (button === 'AC') {
-                                    clear();
-                                } else if (button === '<==') {
-                                    deleteInput();
-                                } else {
-                                    type(button);
+                                        type(button);
                                 }
                             }}
                         />
