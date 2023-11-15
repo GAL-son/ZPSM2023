@@ -120,6 +120,11 @@ class Calculator {
             return;
         }
 
+        if(item == '%') {
+            this.items = this.items.concat('/100');
+            return;
+        }
+
         // if(item == "x!") {
         //     this.items = ["!","("].concat(this.items);
         //     return;
