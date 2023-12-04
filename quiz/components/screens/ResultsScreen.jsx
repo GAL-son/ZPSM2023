@@ -5,50 +5,76 @@ import {
     ScrollView,
     FlatList,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    RefreshControl
 } from "react-native";
+
+import { useCallback, useState } from "react";
 
 import Card from "../shared/card";
 
-const TestScores = [
+results = [
     {
-        id: 0,
-        nick: "GAL_son",
-        test: "Test1",
-        score: "23/24",
-        date: "21-11-23"
+        "nick": "Marek",
+        "score": 18,
+        "total": 20,
+        "type": "historia",
+        "date": "2022-11-22"
+    },
+    {
+        "nick": "GAL_son",
+        "score": 19,
+        "total": 20,
+        "type": "historia",
+        "date": "2022-11-18"
     }, 
     {
-        id: 1,
-        nick: "Antonina",
-        test: "Test1",
-        score: "24/24",
-        date: "29-10-23"
+        "nick": "Antonina",
+        "score": 20,
+        "total": 20,
+        "type": "historia",
+        "date": "2022-11-10"
     },
 ]
 
 const ResultScreen = ({route, navigation}) => {
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+        setRefreshing(false);
+        }, 2000);
+    }, []);
+
     return(
-        <ScrollView style = {route.params.style.screenBody}>
+        <SafeAreaView style = {route.params.style.screenBody}> 
             <Card>
                 <View style={[styles.row]}>
-                    <Text style={[styles.top]}>Name</Text>
-                    <Text style={[styles.top]}>Test</Text>
-                    <Text style={[styles.top]}>Score</Text>
-                    <Text style={[styles.top]}>Date</Text>
+                    <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.top]}>Name</Text></View>
+                    <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.top]}>Test</Text></View>
+                    <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.top]}>Score</Text></View>
+                    <View style={[styles.last]}><Text style={[styles.top]}>Date</Text></View>
                 </View>
             </Card>
-            {TestScores.map(x => (
-                <Card key={x.id}>
-                    <View style={styles.row}>
-                        <Text>{x.nick}</Text>
-                        <Text>{x.test}</Text>
-                        <Text>{x.score}</Text>
-                        <Text>{x.date}</Text>
-                    </View>
-                </Card>
-            ))}
-        </ScrollView>
+            
+            <FlatList 
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                data={results}
+                renderItem={({item}) => 
+                    <Card>
+                        <View style={[styles.row]}>
+                            <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["nick"]}</Text></View>
+                            <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["type"]}</Text></View>
+                            <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["score"]}/{item["total"]}</Text></View>
+                            <View style={[ styles.last]}><Text style={[styles.item]}>{item["date"]}</Text></View>
+                        </View>
+                    </Card>
+                }
+            />
+        </SafeAreaView>
     )
 }
 
@@ -61,7 +87,27 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
 
+    notLast: {
+        width: '25%',
+    },
+
+    borderSep: {
+        borderEndColor: 'gray',
+        borderEndWidth: 1
+    },
+
+    last: {
+        flexGrow: 1,
+        textAlign: 'right',
+        paddingEnd: 2
+    },
+
     top: {
         fontWeight: "bold",
-    }
+        textAlign: 'center'
+    },
+
+    item: {
+        textAlign: 'center'  
+    },
 })

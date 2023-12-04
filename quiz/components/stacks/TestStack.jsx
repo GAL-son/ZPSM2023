@@ -13,11 +13,13 @@ const TestStack = ({route, navigation}) => {
     const style = route.params.style;
 
     const getTestQuestions = () => {
-        for(let i = 0; i < testData.questions.length; i++) {
-            testData.questions[i]["next"] = (i == testData.questions.length-1) ? "END" : testData.questions[i+1].title;
+        
+        for(let i = 0; i < testData.tasks.length; i++) {
+            testData.tasks[i]["next"] = (i == testData.tasks.length-1) ? "END" : testData.tasks[i+1].title;
+            //console.log( testData.tasks[i]);
         }
 
-        return testData.questions;
+        return testData.tasks;
     }
 
     // navigation.dispatch(
@@ -27,9 +29,9 @@ const TestStack = ({route, navigation}) => {
     return(
         <Stack.Navigator initialRouteName="StartTestScreen" screenOptions={({ route, navigation }) => ({
             headerShown: false})}>
-            <Stack.Screen name="StartTestScreen" component={TestStartScreen} initialParams={{style: style, test: testData, firstQuestion: testData.questions[0].title}} />
+            <Stack.Screen name="StartTestScreen" component={TestStartScreen} initialParams={{style: style, test: testData, firstQuestion: testData.tasks[0].title}} />
             {getTestQuestions().map(x => (
-                <Stack.Screen key={x} name={x.title} component={QuestionScreen} initialParams={{style: style, question: x}}/>
+                <Stack.Screen key={x.title} name={x.title} component={QuestionScreen} initialParams={{style: style, question: x}}/>
             ))}
             <Stack.Screen name="END" component={TestEndScreen}  initialParams={{style: style}}/>
         </Stack.Navigator>
