@@ -26,9 +26,9 @@ const MainDrawer = ({route, navigation}) => {
         <Drawer.Navigator>
             <Drawer.Screen name="Home" component={HomeStack} initialParams={{tests: testList, style: globalstyle}}/>
             <Drawer.Screen name='Scores' component={ResultScreen} initialParams={{style: globalstyle}}/>
-            <Drawer.Group>
+            <Drawer.Group screenOptions={{presentation: 'modal'}}>
             {testList.map(test => (
-                <Drawer.Screen key={test.id} name={test.name} component={TestStack} initialParams={{test: test, style: globalstyle}} />
+                <Drawer.Screen key={test.name} name={test.name} component={TestStack} initialParams={{test: test, style: globalstyle}} />
             ))}
             </Drawer.Group>            
         </Drawer.Navigator>

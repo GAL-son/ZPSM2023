@@ -1,7 +1,8 @@
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    StyleSheet
 } from "react-native";
 
 import FlatButton from '../shared/button'
@@ -14,12 +15,20 @@ const TestStartScreen = ({route, navigation}) => {
     return(
         <View style = {style.screenBody}>
             <Card>
-                <Text>{testData.name}</Text>
+                <Text style={[testStartStyle.title]}>{testData.name}</Text>
                 <Text>{testData.description}</Text>
             </Card>
             <FlatButton type="action" text="Try solving the test" onPress={() => navigation.navigate(route.params.firstQuestion, {test: testData, score: 0})}/>
         </View>
     )
 }
+
+const testStartStyle = StyleSheet.create({
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        textAlign: 'center'
+    },
+})
 
 export default TestStartScreen;

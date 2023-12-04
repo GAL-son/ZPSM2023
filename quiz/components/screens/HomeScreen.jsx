@@ -4,7 +4,8 @@ import {
     SafeAreaView,
     ScrollView,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    StyleSheet
 } from "react-native";
 
 import Card from "../shared/card";
@@ -15,15 +16,24 @@ const HomeScreen = ({navigation, route}) => {
     return(
         <ScrollView style = {route.params.style.screenBody}>
             {tests.map(x => (
-                <TouchableOpacity key={x.id} onPress={() => navigation.navigate(x.name)}>
+                <TouchableOpacity key={x.name} onPress={() => navigation.navigate(x.name)}>
                     <Card>
-                        <Text>{x.name}</Text>
+                        <Text style={homeStyle.testHead}>{x.name}</Text>
                         <Text>{x.description}</Text>
+                        <Text>Length: {x.tasks.length}</Text>
                     </Card>
                 </TouchableOpacity>
             ))}
         </ScrollView>
     )
 }
+
+const homeStyle = StyleSheet.create({
+    testHead: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 5
+    },
+})
 
 export default HomeScreen;

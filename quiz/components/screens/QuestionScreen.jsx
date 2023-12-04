@@ -11,9 +11,13 @@ import FlatButton from '../shared/button'
 import Card from "../shared/card";
 
 const QuestionScreen = ({route, navigation}) => {
+    const {params} = route;
     const questionData = route.params.question;
+    const answers = questionData.answers//.sort( () => .5 - Math.random() )
+
     const [anwsered, setAnwsered] = useState(false)
     const [score, setScore] = useState(route.params.score)
+    const [time, setTime] = useState(params.duration);
 
     const questionButtons = useRef([])
 
@@ -21,10 +25,10 @@ const QuestionScreen = ({route, navigation}) => {
 
         if(anwsered) return;
 
-        if(questionData.anwsers[index] === questionData.correct) setScore(score+1)
+        if(questionData.answers[index].isCorrect == 'true') setScore(score+1)
  
         for(let i = 0; i < questionButtons.current.length; i++) {
-            if(questionData.anwsers[i] === questionData.correct) {
+            if(questionData.answers[i].isCorrect == 'true') {
                 questionButtons.current[i]?.setType('action');
             }
             else if(i == index) {
@@ -40,10 +44,11 @@ const QuestionScreen = ({route, navigation}) => {
         <View style = {route.params.style.screenBody}>
             <Card>
                 <Text style={[style.title]}>{questionData.title}</Text>
-                <Text style={[style.question]}>{questionData.content}</Text>
-                <View style={[style.anwsersContainer]}>
-                    {questionData.anwsers.map((ans, index) => (
-                        <FlatButton ref={(el) => questionButtons.current[index] = el} style={{marginBottom: 10}} key={ans} text={ans} onPress={() => {checkAns(index)}}/>
+                <Text style={[style.question]}>{questionData.question}</Text>
+                <Text></Text>
+                <View style={[style.answersContainer]}>
+                    {answers.map((ans, index) => (
+                        <FlatButton ref={(el) => questionButtons.current[index] = el} style={{marginBottom: 10}} key={ans.content} text={ans.content} onPress={() => {checkAns(index)}}/>
                     ))}
                 </View>
             </Card>
@@ -65,7 +70,7 @@ const style = StyleSheet.create({
         textAlign: "justify",
         marginBottom: 20
     }, 
-    anwsersContainer: {
+    answersContainer: {
         display: "flex",
     }
 })

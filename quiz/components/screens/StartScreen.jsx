@@ -17,26 +17,6 @@ const StartScreen = (props) => {
     const [isFirstRun, setIsFirstRun] = useState(true);
     const {navigation, route} = props
 
-    useEffect(() => {
-        const checkIfFirstRun = async () => {
-            try {
-                const value = await AsyncStorage.getItem('firstRun');
-                if (value !== null) {
-                    setIsFirstRun(false);
-                }
-            } catch (error) {
-                console.error('Error reading from AsyncStorage:', error);
-            }
-        };
-        checkIfFirstRun();
-    }, []);
-
-    useEffect(() => {
-        if (!isFirstRun) {
-            navigation.replace("Drawer");
-        }
-    }, [isFirstRun, navigation]);
-
     const handleAgree = async () => {
         try {
             await AsyncStorage.setItem('firstRun', 'true');
