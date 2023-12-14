@@ -19,8 +19,8 @@ const HomeScreen = ({navigation, route}) => {
                 <TouchableOpacity key={x.name} onPress={() => navigation.navigate(x.name)}>
                     <Card>
                         <Text style={homeStyle.testHead}>{x.name}</Text>
-                        <Text>{x.description}</Text>
-                        <Text>Length: {x.tasks.length}</Text>
+                        <Text style={homeStyle.smallText}>{x.description}</Text>
+                        <Text style={homeStyle.smallText}>Length: {x.tasks.length}</Text>
                     </Card>
                 </TouchableOpacity>
             ))}
@@ -30,10 +30,15 @@ const HomeScreen = ({navigation, route}) => {
 
 const homeStyle = StyleSheet.create({
     testHead: {
-        fontSize: 18,
-        fontWeight: "bold",
+        fontSize: 20,
+        fontFamily: 'Comfortaa-Bold',
         marginBottom: 5
     },
+
+    smallText: {
+        fontFamily: 'SignikaNegative-Regular',
+        fontSize: 15,
+    }
 })
 
 export default HomeScreen;

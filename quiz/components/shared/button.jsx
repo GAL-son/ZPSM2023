@@ -7,9 +7,7 @@ import {
 } from "react-native";
 
 import { useState, useImperativeHandle} from "react";
-
-import ACTIONCOLORS from "../../colors/actionColors"
-import APPCOLORS from '../../colors/appColors';
+import APPCOLORS from '../../styles/appStyle';
 
 
 const FlatButton = React.forwardRef(({text, onPress, type, style}, ref ) => {
@@ -72,16 +70,16 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: "center",
-        fontWeight: 'bold'
+        fontFamily: 'Comfortaa-Bold'
     }, 
     default: {
-        backgroundColor: APPCOLORS.bgSecondary
+        backgroundColor: APPSTYLE.bgSecondary
     },
     action: {
-        backgroundColor: ACTIONCOLORS.action
+        backgroundColor: APPSTYLE.action
     },
     danger: {
-        backgroundColor: ACTIONCOLORS.danger
+        backgroundColor: APPSTYLE.danger
     },
     textLight: {
         color: '#eee',

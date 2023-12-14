@@ -69,7 +69,7 @@ const ResultScreen = ({route, navigation}) => {
                             <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["nick"]}</Text></View>
                             <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["type"]}</Text></View>
                             <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["score"]}/{item["total"]}</Text></View>
-                            <View style={[ styles.last]}><Text style={[styles.item]}>{item["date"]}</Text></View>
+                            <View style={[styles.last]}><Text style={[styles.item]}>{item["date"]}</Text></View>
                         </View>
                     </Card>
                 }
@@ -103,11 +103,13 @@ const styles = StyleSheet.create({
     },
 
     top: {
-        fontWeight: "bold",
-        textAlign: 'center'
+        fontFamily: 'Comfortaa-Bold',
+        textAlign: 'center',
+        fontSize: 17
     },
 
     item: {
-        textAlign: 'center'  
+        textAlign: 'center', 
+        fontFamily: 'SignikaNegative-Regular', 
     },
 })

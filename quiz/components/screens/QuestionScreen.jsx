@@ -61,14 +61,17 @@ export default QuestionScreen;
 
 const style = StyleSheet.create({
     title: {
-        fontSize: 25,
+        fontSize: 30,
         textAlign: "center",
         marginBottom: 10,
+        fontFamily: 'Comfortaa-Bold',
     },
 
     question: {
         textAlign: "justify",
-        marginBottom: 20
+        marginBottom: 20, 
+        fontFamily: 'SignikaNegative-Regular',
+        fontSize: 20,
     }, 
     answersContainer: {
         display: "flex",

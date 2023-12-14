@@ -28,13 +28,15 @@ export default TestEndScreen;
 
 const style = StyleSheet.create({
     title: {
-        fontSize: 25,
+        fontSize: 30,
         textAlign: "center",
         marginBottom: 10,
+        fontFamily: 'Comfortaa-Bold',
     },
 
     score: {
         fontSize: 15,
+        fontFamily: 'SignikaNegative-Regular',
         textAlign: "center",
     }
 })
