@@ -65,7 +65,9 @@ const startStyle = StyleSheet.create({
     },
 
     scrollText: {
-        textAlign: 'justify'
+        textAlign: 'justify',
+        fontFamily: 'SignikaNegative-Regular', 
+
     },  
 
     card: {
@@ -73,15 +75,13 @@ const startStyle = StyleSheet.create({
         marginBottom: '3'
     },
 
-
-
     padding: {
         padding: 10
     },
     
     head: {
         fontSize: 30,
-        fontWeight: 'bold',
+        fontFamily: 'Comfortaa-Bold',
         marginBottom: 10
     }
 })

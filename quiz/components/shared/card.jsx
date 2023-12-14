@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from "react-native";
 
-import APPCOLORS from "../../colors/appColors"
+import APPSTYLE from "../../styles/appStyle"
 
 const Card = (props) => {
     return(
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     card: {
         borderRadius: 6,
         elevation: 3,
-        backgroundColor: APPCOLORS.bgPrimary,
+        backgroundColor: APPSTYLE.bgPrimary,
         shadowOffset: { width: 1, height: 1},
         shadowColor: '#333' ,
         shadowOpacity: 0.3,
