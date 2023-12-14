@@ -44,7 +44,6 @@ const Empty = (props) => {
   }, []);
 
   useEffect(() => {
-    
   }, [isFirstRun, navigation]);
 }
 

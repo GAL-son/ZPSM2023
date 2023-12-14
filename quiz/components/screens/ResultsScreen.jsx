@@ -58,7 +58,7 @@ const ResultScreen = ({route, navigation}) => {
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
-                data={results}
+                data={results.reverse()}
                 renderItem={({item}) => 
                     <Card>
                         <View style={[styles.row]}>
