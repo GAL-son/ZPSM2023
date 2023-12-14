@@ -9,42 +9,37 @@ import {
     RefreshControl
 } from "react-native";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Card from "../shared/card";
 
-results = [
-    {
-        "nick": "Marek",
-        "score": 18,
-        "total": 20,
-        "type": "historia",
-        "date": "2022-11-22"
-    },
-    {
-        "nick": "GAL_son",
-        "score": 19,
-        "total": 20,
-        "type": "historia",
-        "date": "2022-11-18"
-    }, 
-    {
-        "nick": "Antonina",
-        "score": 20,
-        "total": 20,
-        "type": "historia",
-        "date": "2022-11-10"
-    },
-]
-
 const ResultScreen = ({route, navigation}) => {
     const [refreshing, setRefreshing] = useState(false);
+    const [results, setResults] = useState([])
 
-    const onRefresh = useCallback(() => {
+    const getScoreFromApi = async () => {
+        try {
+            const response = await fetch('https://tgryl.pl/quiz/results?last=20');
+            const json = await response.json();
+            setResults(json);
+        } catch (e) {
+            console.error(e)
+        }        
+    }
+
+    useEffect(() => {
+        getScoreFromApi()
+    }, [])
+
+    const onRefresh = useCallback(async () => {
         setRefreshing(true);
-        setTimeout(() => {
-        setRefreshing(false);
-        }, 2000);
+        try {
+            getScoreFromApi();
+        } catch(e) {
+            console.error(e)
+        } finally {
+            setRefreshing(false);
+        }
     }, []);
 
     return(
@@ -59,6 +54,7 @@ const ResultScreen = ({route, navigation}) => {
             </Card>
             
             <FlatList 
+                style={{height:'90%', shadowColor: '#000',shadowOpacity: 0.5,shadowRadius: 5,elevation: 2,}}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
@@ -69,7 +65,7 @@ const ResultScreen = ({route, navigation}) => {
                             <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["nick"]}</Text></View>
                             <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["type"]}</Text></View>
                             <View style={[styles.borderSep, styles.notLast]}><Text style={[styles.item]}>{item["score"]}/{item["total"]}</Text></View>
-                            <View style={[styles.last]}><Text style={[styles.item]}>{item["date"]}</Text></View>
+                            <View style={[styles.last]}><Text style={[styles.item]}>{item["createdOn"]}</Text></View>
                         </View>
                     </Card>
                 }
@@ -98,7 +94,7 @@ const styles = StyleSheet.create({
 
     last: {
         flexGrow: 1,
-        textAlign: 'right',
+        width: '25%',
         paddingEnd: 2
     },
 
@@ -111,5 +107,6 @@ const styles = StyleSheet.create({
     item: {
         textAlign: 'center', 
         fontFamily: 'SignikaNegative-Regular', 
+        margin: 5
     },
 })
