@@ -16,22 +16,27 @@ import { NavigationContainer } from '@react-navigation/native';
 import StartScreen from './components/screens/StartScreen';
 import MainDrawer from './components/stacks/MainDrawer';
 
+import Api from './components/api';
 
 const Stack = createNativeStackNavigator()
 
 const Empty = (props) => {
   const [isFirstRun, setIsFirstRun] = useState(true);
   const { navigation, route } = props
+  const {API} = route.params
 
   useEffect(() => {
     const checkIfFirstRun = async () => {
+      //await API.getTestsFromApi();
       try {
         const value = await AsyncStorage.getItem('firstRun');
         if (value !== null) {
           console.log(value)
           setIsFirstRun(true);
+          
           console.log("TO DRAWER")
-          navigation.replace("Drawer");
+          route.params.hideSplash();
+          navigation.replace("Drawer"/*, {API: route.params.API}*/);
         } else {
           console.log("TO RULES")
           navigation.replace("Rules");
@@ -40,6 +45,7 @@ const Empty = (props) => {
         console.error('Error reading from AsyncStorage:', error);
       }
     };
+    
     checkIfFirstRun();
   }, []);
 
@@ -48,16 +54,30 @@ const Empty = (props) => {
 }
 
 function App() {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+  const API = new Api();
+
+  //   useEffect(() => {
+  //   console.debug("USE EFFECT")
+  //   const useApi = async () => {
+  //     console.debug("USE API")
+  //     await API.getTestsFromApi();
+  //     //console.debug("AFTER USE API")
+  //   }
+
+  //   useApi().then(() => {console.info(API.tests); SplashScreen.hide();})
+  //   //SplashScreen.hide();
+  // }, []);
+
+  // useEffect(()=>{
+    
+  // }, [])
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='empty'>
-        <Stack.Screen name='empty' component={Empty}/>
+        <Stack.Screen name='empty' component={Empty} initialParams={{API: API, hideSplash: () => {SplashScreen.hide()}}}/>
         <Stack.Screen name='Rules' component={StartScreen} />
-        <Stack.Screen name='Drawer' component={MainDrawer} />
+        <Stack.Screen name='Drawer' component={MainDrawer} initialParams={{API: API}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

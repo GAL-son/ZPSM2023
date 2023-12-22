@@ -8,49 +8,48 @@ import {
     StyleSheet
 } from "react-native";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+import { CommonActions, NavigationAction, useFocusEffect } from '@react-navigation/native';
 
 import Card from "../shared/card";
 
 const HomeScreen = ({navigation, route}) => {
-    const getTestsFromApi = async (updateTests) => {
-        try {
-            const response = await fetch('https://tgryl.pl/quiz/tests');
-            const json = await response.json();
-            updateTests(json);
-        } catch (e) {
-            console.error(e)
-        }        
-    }
+    const {API} = route.params;
+    const {tests} = route.params;
 
-    const [tests, getTest] = useState([])
-    useEffect(() => {getTestsFromApi(getTest)}, [])
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
+
+    useFocusEffect(useCallback(() => {
+        setTimeout(() => {
+            console.log("CALL UPDATE HOOK")
+            forceUpdate();
+        }, 1000);
+    }, []));
 
     const selectTest = async (testName, testId) => {
-        try {
-            const response = await fetch('https://tgryl.pl/quiz/test/'+testId);
-            const json = await response.json();
-            const testInfo = json;
+        navigation.getParent().dispatch((state)=>{
+            CommonActions.reset(
+                {index: 1}
+            );
+            
+        });
 
-            // Iterate over all questions
-            for(let i = 0; i < testInfo.tasks.length; i++) {
-                testInfo.tasks[i]['title'] = "Question " + (i+1).toString();
-                testInfo.tasks[i]["next"] = (i == testInfo.tasks.length-1) ? "END" : "Question " + (i+2).toString();;             
-            }
+        console.debug("SELECT TEST", testId);
+        console.log("NAVIGATION, ", navigation.getParent().getState().routeNames)
 
-            console.info("NAVIGATE" + testName)
-            navigation.navigate(testName, {testData: testInfo});            
-        } catch (e) {
-            console.error(e)
+        const navigateWith = (data) => {
+            console.log("NAV WITH", data);
+            navigation.navigate(testName, {testData: data});
         }
         
-
-        
+        await API.getTestDataFromApi(testId, navigateWith);
     }
 
     return(
         <ScrollView style = {route.params.style.screenBody}>
-            {tests.map(x => (
+            {API.tests.map(x => (
                 <TouchableOpacity key={x.name} onPress={() => selectTest(x.name, x.id)}>
                     <Card>
                         <Text style={homeStyle.testHead}>{x.name}</Text>
