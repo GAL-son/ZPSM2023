@@ -10,7 +10,9 @@ import {
 
 import { useEffect, useState, useCallback } from "react";
 
+
 import { CommonActions, NavigationAction, useFocusEffect } from '@react-navigation/native';
+import _ from "lodash";
 
 import Card from "../shared/card";
 
@@ -23,17 +25,18 @@ const HomeScreen = ({navigation, route}) => {
 
     useFocusEffect(useCallback(() => {
         setTimeout(() => {
+            
             console.log("CALL UPDATE HOOK")
             forceUpdate();
-        }, 1000);
+        }, 550);
+        
     }, []));
 
     const selectTest = async (testName, testId) => {
         navigation.getParent().dispatch((state)=>{
             CommonActions.reset(
                 {index: 1}
-            );
-            
+            );            
         });
 
         console.debug("SELECT TEST", testId);
@@ -49,7 +52,7 @@ const HomeScreen = ({navigation, route}) => {
 
     return(
         <ScrollView style = {route.params.style.screenBody}>
-            {API.tests.map(x => (
+            {_.shuffle(API.tests).map(x => (
                 <TouchableOpacity key={x.name} onPress={() => selectTest(x.name, x.id)}>
                     <Card>
                         <Text style={homeStyle.testHead}>{x.name}</Text>

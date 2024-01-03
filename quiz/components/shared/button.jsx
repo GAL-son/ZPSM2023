@@ -70,22 +70,22 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: "center",
-        fontFamily: 'Comfortaa-Bold'
+        fontFamily: APPSTYLE.fonts.special.bold,
     }, 
     default: {
-        backgroundColor: APPSTYLE.bgSecondary
+        backgroundColor: APPSTYLE.colors.bgSecondary
     },
     action: {
-        backgroundColor: APPSTYLE.action
+        backgroundColor: APPSTYLE.colors.action
     },
     danger: {
-        backgroundColor: APPSTYLE.danger
+        backgroundColor: APPSTYLE.colors.danger
     },
     textLight: {
-        color: '#eee',
+        color: APPSTYLE.colors.text.bright
     },
     textDark: {
-        color: '#111'
+        color: APPSTYLE.colors.text.dark
     }
     
     

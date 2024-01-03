@@ -1,4 +1,5 @@
 import { useState } from "react";
+import _ from "lodash";
 
 class Api {
     tests = [];
@@ -7,6 +8,10 @@ class Api {
         this.tests = tests;
     } 
 
+    shuffleTests() {
+        this.tests=_.shuffle(this.tests);
+    }
+
     async getTestsFromApi() {
         console.debug("START API REQUEST")
         try {
@@ -14,7 +19,7 @@ class Api {
             const json = await response.json();
             //console.debug(json);
             this.setTests(json);
-            console.debug(this.tests)
+            // console.debug(this.tests)
         } catch (e) {
             console.error(e)
         } 

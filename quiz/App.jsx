@@ -17,6 +17,7 @@ import StartScreen from './components/screens/StartScreen';
 import MainDrawer from './components/stacks/MainDrawer';
 
 import Api from './components/api';
+import ConnectionIndicator from './components/shared/ConnectionIndicator';
 
 const Stack = createNativeStackNavigator()
 
@@ -27,15 +28,14 @@ const Empty = (props) => {
 
   useEffect(() => {
     const checkIfFirstRun = async () => {
-      //await API.getTestsFromApi();
+      await API.getTestsFromApi();
       try {
         const value = await AsyncStorage.getItem('firstRun');
+        route.params.hideSplash();
         if (value !== null) {
           console.log(value)
           setIsFirstRun(true);
-          
           console.log("TO DRAWER")
-          route.params.hideSplash();
           navigation.replace("Drawer"/*, {API: route.params.API}*/);
         } else {
           console.log("TO RULES")
@@ -48,9 +48,6 @@ const Empty = (props) => {
     
     checkIfFirstRun();
   }, []);
-
-  useEffect(() => {
-  }, [isFirstRun, navigation]);
 }
 
 function App() {
@@ -73,6 +70,8 @@ function App() {
   // }, [])
 
   return (
+    <>
+    <ConnectionIndicator></ConnectionIndicator>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='empty'>
         <Stack.Screen name='empty' component={Empty} initialParams={{API: API, hideSplash: () => {SplashScreen.hide()}}}/>
@@ -80,6 +79,7 @@ function App() {
         <Stack.Screen name='Drawer' component={MainDrawer} initialParams={{API: API}}/>
       </Stack.Navigator>
     </NavigationContainer>
+    </>
   );
 }
 
