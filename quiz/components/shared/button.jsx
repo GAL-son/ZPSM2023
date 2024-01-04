@@ -43,7 +43,7 @@ const FlatButton = React.forwardRef(({text, onPress, type, style}, ref ) => {
             case "danger":
                 return styles.textLight;
             default:
-                return styles.textDark;
+                return styles.text;
         }
     }
 
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     textLight: {
         color: APPSTYLE.colors.text.bright
     },
-    textDark: {
-        color: APPSTYLE.colors.text.dark
+    text: {
+        color: APPSTYLE.colors.text.regular
     }
     
     

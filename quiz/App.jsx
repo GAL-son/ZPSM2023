@@ -27,8 +27,9 @@ const Empty = (props) => {
   const {API} = route.params
 
   useEffect(() => {
+    console.info("EMPTY START")
     const checkIfFirstRun = async () => {
-      await API.getTestsFromApi();
+      await API.initAsyncStorage()
       try {
         const value = await AsyncStorage.getItem('firstRun');
         route.params.hideSplash();

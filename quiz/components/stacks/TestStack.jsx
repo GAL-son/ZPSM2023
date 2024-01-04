@@ -12,8 +12,9 @@ const Stack = createNativeStackNavigator()
 const TestStack = ({route, navigation}) => {
     const testData = route.params.testData;
     const style = route.params.style;
+    const API = route.params.api
 
-    useEffect(() => {console.log( testData.tasks[0]['answers']);}, [])
+    useEffect(() => {console.log( testData.tasks);}, [])
 
     //const [testData, setTestData] = useState([])
 
@@ -50,7 +51,7 @@ const TestStack = ({route, navigation}) => {
             {testData.tasks.map(x => (
                 <Stack.Screen key={x.title} name={x.title} component={QuestionScreen} initialParams={{style: style, question: x}}/>
             ))}
-            <Stack.Screen name="END" component={TestEndScreen}  initialParams={{style: style}}/>
+            <Stack.Screen name="END" component={TestEndScreen}  initialParams={{style: style, api: API}}/>
         </Stack.Navigator>
     )
 }

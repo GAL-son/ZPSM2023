@@ -28,7 +28,7 @@ const HomeScreen = ({navigation, route}) => {
             
             console.log("CALL UPDATE HOOK")
             forceUpdate();
-        }, 550);
+        }, 1000);
         
     }, []));
 
@@ -44,7 +44,7 @@ const HomeScreen = ({navigation, route}) => {
 
         const navigateWith = (data) => {
             console.log("NAV WITH", data);
-            navigation.navigate(testName, {testData: data});
+            navigation.navigate(testName, {testData: data, api: API});
         }
         
         await API.getTestDataFromApi(testId, navigateWith);
@@ -52,7 +52,7 @@ const HomeScreen = ({navigation, route}) => {
 
     return(
         <ScrollView style = {route.params.style.screenBody}>
-            {_.shuffle(API.tests).map(x => (
+            {API.tests.map(x => (
                 <TouchableOpacity key={x.name} onPress={() => selectTest(x.name, x.id)}>
                     <Card>
                         <Text style={homeStyle.testHead}>{x.name}</Text>

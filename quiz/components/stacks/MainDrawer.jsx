@@ -29,12 +29,10 @@ const MainDrawer = ({route, navigation}) => {
 
     const forceUpdate = useCallback(() => updateState({}), []);
 
-    useEffect(()=>{console.log(navigation.getState())},[navigation])
+    useEffect(()=>{console.log("MainDrawer.Start API: " + API.tests)},[])
 
     const CustomDrawerContent = (props) => {
-        const {state, navigation, descriptors} = {...props}
-
-        
+        const {state, navigation, descriptors} = {...props}        
 
         return(
             <DrawerContentScrollView {...props}>
@@ -82,7 +80,7 @@ const MainDrawer = ({route, navigation}) => {
                     style={{padding:5}}
                     onPress={() => {
                         console.log("REFRESH TESTS");
-                        API.getTestsFromApi().then(() => setTests(API.tests))
+                        API.getTestsFromApi(false);
                     }}
 
                 />
